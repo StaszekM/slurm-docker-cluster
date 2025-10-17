@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+/usr/sbin/sshd
+
 if [ "$1" = "slurmdbd" ]
 then
     echo "---> Starting the MUNGE Authentication service (munged) ..."

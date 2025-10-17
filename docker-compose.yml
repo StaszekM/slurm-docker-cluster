@@ -28,6 +28,8 @@ services:
       - var_log_slurm:/var/log/slurm
     expose:
       - "6819"
+    ports:
+      - "2222:22"
     depends_on:
       - mysql
     networks:

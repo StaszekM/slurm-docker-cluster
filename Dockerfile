@@ -92,6 +92,18 @@ RUN set -x \
     && chown slurm:slurm /etc/slurm/slurmdbd.conf \
     && chmod 600 /etc/slurm/slurmdbd.conf
 
+RUN yum install -y openssh-server
+RUN mkdir /var/run/sshd
+RUN echo 'root:rootpassword' | chpasswd
+RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
+
+RUN mkdir -p /etc/ssh \
+    && ssh-keygen -A
+
+EXPOSE 22
+
+
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
