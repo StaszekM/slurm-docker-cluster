@@ -37,6 +37,8 @@ then
     done
     echo "-- slurmdbd is now active ..."
 
+    rm -f /etc/profile.d/slurm_completion.sh # we do not need autocompletion in the controller
+
     echo "---> Starting the Slurm Controller Daemon (slurmctld) ..."
     if /usr/sbin/slurmctld -V | grep -q '17.02' ; then
         exec gosu slurm /usr/sbin/slurmctld -Dvvv

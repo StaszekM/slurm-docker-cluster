@@ -98,7 +98,30 @@ RUN echo 'root:rootpassword' | chpasswd
 RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
 
-RUN yum install -y nano
+# Basic build tools
+RUN yum -y groupinstall "Development Tools"
+
+# Python headers and compression libraries
+RUN yum -y install python3-devel \
+               bzip2 bzip2-devel \
+               zlib zlib-devel \
+               xz xz-devel \
+               libffi libffi-devel \
+               wget curl git
+
+# Crypto / libs needed for PyNaCl
+RUN yum -y install epel-release
+RUN yum -y install libsodium libsodium-devel
+
+# Optional but often needed for cffi/cryptography builds
+RUN yum -y install openssl openssl-devel
+RUN yum -y install make cmake automake autoconf libtool
+
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+RUN yum install -y rsync
+
 
 RUN mkdir -p /etc/ssh \
     && ssh-keygen -A
