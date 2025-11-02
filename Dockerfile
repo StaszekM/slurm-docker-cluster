@@ -98,6 +98,8 @@ RUN echo 'root:rootpassword' | chpasswd
 RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
 
+RUN yum install -y nano
+
 RUN mkdir -p /etc/ssh \
     && ssh-keygen -A
 
