@@ -28,8 +28,6 @@ services:
       - var_log_slurm:/var/log/slurm
     expose:
       - "6819"
-    ports:
-      - "2222:22"
     depends_on:
       - mysql
     networks:
@@ -52,6 +50,8 @@ services:
       - ./cgroup.conf:/etc/slurm/cgroup.conf # <-- ADICIONADO AQUI
     expose:
       - "6817"
+    ports:
+      - "2222:22" # SSH access to slurmctld
     depends_on:
       - "slurmdbd"
     networks:
